@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM docker.io/k8secops/java
 WORKDIR /app
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
