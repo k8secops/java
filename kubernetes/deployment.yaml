@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-inventory
+  namespace: demo
+  labels:
+    app: java-inventory
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-inventory
+  template:
+    metadata:
+      labels:
+        app: java-inventory
+        tier: backend
+    spec:
+      containers:
+        - name: java-inventory
+          image: DOCKERHUB_USER/demo-java:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: java-inventory-config
+          env:
+            - name: DB_PASSWORD
+              value: ""
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
