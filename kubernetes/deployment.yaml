@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: java-inventory
-          image: k8secops/java:java-main-0000019f-20260628-063653 # {"$imagepolicy": "flux-system:demo-java"}
+          image: index.docker.io/k8secops/java:java-main-0000019f-20260628-070208 # {"$imagepolicy": "flux-system:demo-java"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
